@@ -1,9 +1,11 @@
 import {Response} from "express";
 import {Request} from "../types";
+import cron from "node-cron"
 import { Stock } from "../database_models/stocks";
 import { History } from "../database_models/history";
 import { fetchLast7DaysData } from "../modules/fetchLast7DaysData";
 import { isValidSymbol } from "../modules/isValidateSymbol";
+import { updateStockDailyAt8 } from "../modules/updateDailyStock";
 
 export const getStock = async (req:Request, res:Response)=>{
     try {
@@ -11,6 +13,9 @@ export const getStock = async (req:Request, res:Response)=>{
         let stockSymbol = req.query.symbol;
         // console.log(stockSymbol)
         // let {symbol:string} = req.query;
+        cron.schedule("0 8 * * *", ()=>{
+            updateStockDailyAt8();
+        })
         
         if(typeof stockSymbol==='string'){
 

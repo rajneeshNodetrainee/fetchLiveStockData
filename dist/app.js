@@ -315,6 +315,9 @@ var getUser = async (req, res) => {
   }
 };
 
+// src/controller/getStock.ts
+var import_node_cron = __toESM(require("node-cron"));
+
 // src/database_models/history.ts
 var import_mongoose4 = __toESM(require("mongoose"));
 var historySchema = new import_mongoose4.default.Schema({
@@ -355,10 +358,28 @@ var isValidSymbol = (stockSymbol) => {
   return pattern.test(stockSymbol);
 };
 
+// src/modules/updateDailyStock.ts
+var updateStockDailyAt8 = async () => {
+  const allStocks = await Stock.find();
+  for (let i = 0; i < allStocks.length; i++) {
+    let stockSymbol = allStocks[i].symbol;
+    const last7Days = await fetchLast7DaysData(stockSymbol);
+    const updatedResult = await Stock.findOneAndUpdate(
+      {
+        symbol: stockSymbol
+      },
+      { stockDetails: last7Days }
+    );
+  }
+};
+
 // src/controller/getStock.ts
 var getStock = async (req, res) => {
   try {
     let stockSymbol = req.query.symbol;
+    import_node_cron.default.schedule("0 8 * * *", () => {
+      updateStockDailyAt8();
+    });
     if (typeof stockSymbol === "string") {
       if (!stockSymbol) {
         return res.status(404).json({ error: "Which company's stock you are looking for..." });
