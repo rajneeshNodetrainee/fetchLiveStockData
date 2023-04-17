@@ -1,0 +1,46 @@
+{
+  "name": "stocks",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/app.js",
+  "scripts": {
+    "build": "node build.mjs",
+    "watch": "concurrently \"node watch.mjs\" \"npx tsc -w\" \"nodemon dist/app.js\"",
+    "prestart": "npm run build",
+    "start": "nodemon dist/app.js",
+    "preserve": "npm run build",
+    "serve": "nodemon dist/app.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@sendgrid/mail": "^7.7.0",
+    "@types/bcryptjs": "^2.4.2",
+    "@types/cors": "^2.8.13",
+    "@types/dotenv": "^8.2.0",
+    "@types/express": "^4.17.17",
+    "@types/jsonwebtoken": "^9.0.1",
+    "@types/lodash": "^4.14.192",
+    "@types/mongoose": "^5.11.97",
+    "@types/node": "^18.15.11",
+    "@types/validator": "^13.7.14",
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
+    "esbuild": "0.17.15",
+    "express": "^4.18.2",
+    "jsonwebtoken": "^9.0.0",
+    "lodash": "^4.17.21",
+    "mongoose": "^7.0.3",
+    "node-cron": "^3.0.2",
+    "rimraf": "^4.4.1",
+    "twilio": "^4.10.0",
+    "typescript": "^5.0.3",
+    "validator": "^13.9.0"
+  },
+  "devDependencies": {
+    "@types/node-cron": "^3.0.7",
+    "concurrently": "^8.0.1",
+    "nodemon": "^2.0.22"
+  }
+}
